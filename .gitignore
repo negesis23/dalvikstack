@@ -1,0 +1,20 @@
+# Build Artifacts
+backend/out/
+backend/dex/
+backend/src/main/resources/public/
+backend/src/main/resources/templates/*.vm
+backend/src/main/resources/assets.properties
+frontend/dist-ssr/
+node_modules/
+
+# Development Environment
+.dev
+.env
+*.log
+
+# System / IDE
+.DS_Store
+.vscode/
+.idea/
+*.swp
+*.class

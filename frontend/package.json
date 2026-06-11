@@ -1,0 +1,26 @@
+{
+  "name": "dalvikstack-frontend",
+  "version": "1.0.0",
+  "scripts": {
+    "build:ssr": "babel src --out-dir dist-ssr --extensions \".jsx\" --quiet",
+    "build:client": "node scripts/bundle-client.js",
+    "build:css": "tailwindcss -i src/styles/main.css -o ../backend/src/main/resources/public/styles.css --minify",
+    "compile:templates": "node scripts/compile-templates.js"
+  },
+  "dependencies": {
+    "@tailwindcss/cli": "^4.3.0",
+    "@tailwindcss/postcss": "^4.3.0",
+    "solid-js": "^1.9.13"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.24.7",
+    "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "autoprefixer": "^10.4.20",
+    "babel-preset-solid": "^1.8.17",
+    "esbuild": "^0.25.0",
+    "esbuild-plugin-solid": "^0.6.0",
+    "postcss": "^8.5.2",
+    "tailwindcss": "^4.0.7"
+  }
+}
