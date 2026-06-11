@@ -6,7 +6,6 @@ import com.dalvikstack.infra.router.Router;
 import com.dalvikstack.infra.handler.HomeHandler;
 import com.dalvikstack.infra.handler.SpecsHandler;
 import com.dalvikstack.infra.handler.AssetHandler;
-import com.dalvikstack.infra.handler.HmrHandler;
 
 public final class Application extends NanoHTTPD {
     private final Router router;
@@ -16,14 +15,6 @@ public final class Application extends NanoHTTPD {
         this.router = new Router();
         this.router.addRoute("/", new HomeHandler());
         this.router.addRoute("/specs", new SpecsHandler());
-        
-        if (Config.DEV_MODE) {
-            HmrHandler hmr = new HmrHandler();
-            this.router.addRoute("/hmr", hmr);
-            this.router.addRoute("/hmr/trigger", hmr);
-            System.out.println("[DalvikStack] HMR endpoint active");
-        }
-        
         this.router.setAssetHandler(new AssetHandler());
     }
 

@@ -4,25 +4,22 @@ export default function Counter() {
   const [count, setCount] = createSignal(0);
 
   return (
-    <div class="space-y-6 md:space-y-10">
-      <div class="flex flex-col items-center">
-        <span class="text-[10px] md:text-xs font-black text-monokai-blue uppercase tracking-[0.4em] mb-2 md:mb-4 text-center">Counter</span>
-        <div class="text-[6rem] md:text-[10rem] font-black text-monokai-text leading-none tracking-tighter">
-          {count()}
-        </div>
-      </div>
-      <div class="flex justify-center gap-4 md:gap-6">
-        <button
+    <div class="flex flex-col items-center gap-8">
+      <p class="text-7xl md:text-8xl font-black text-monokai-text tracking-tighter tabular-nums leading-none">
+        {count()}
+      </p>
+      <div class="flex gap-2 w-full">
+        <button 
           onClick={() => setCount(count() - 1)}
-          class="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center bg-monokai-panel text-monokai-text text-2xl md:text-3xl font-black rounded-2xl md:rounded-3xl hover:bg-monokai-pink hover:text-white transition-all active:scale-90"
+          class="flex-1 bg-monokai-panel border border-monokai-panel hover:border-monokai-pink text-monokai-text font-black py-4 transition-all active:scale-95 uppercase text-xs tracking-widest"
         >
-          -
+          Decrement
         </button>
-        <button
+        <button 
           onClick={() => setCount(count() + 1)}
-          class="w-16 h-16 md:w-20 md:h-20 flex items-center justify-center bg-monokai-pink text-white text-2xl md:text-3xl font-black rounded-2xl md:rounded-3xl hover:bg-white hover:text-monokai-pink transition-all active:scale-90"
+          class="flex-1 bg-monokai-panel border border-monokai-panel hover:border-monokai-green text-monokai-text font-black py-4 transition-all active:scale-95 uppercase text-xs tracking-widest"
         >
-          +
+          Increment
         </button>
       </div>
     </div>

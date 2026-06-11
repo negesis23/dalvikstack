@@ -30,7 +30,6 @@ public abstract class BaseHandler implements Handler {
         String view = getView();
         VelocityContext ctx = new VelocityContext();
         ctx.put("title", Config.APP_NAME);
-        ctx.put("dev", Config.DEV_MODE);
         
         String scriptsCsv = assets.getProperty(view + ".scripts");
         if (scriptsCsv != null) {

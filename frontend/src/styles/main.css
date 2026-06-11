@@ -2,13 +2,15 @@
 
 @theme {
   --color-monokai-bg: #1e1e1e;
-  --color-monokai-panel: #2d2d2d;
+  --color-monokai-panel: #272822;
+  --color-monokai-sub: #141411;
   --color-monokai-text: #f8f8f2;
   --color-monokai-pink: #f92672;
   --color-monokai-green: #a6e22e;
   --color-monokai-yellow: #e6db74;
   --color-monokai-blue: #66d9ef;
   --color-monokai-orange: #fd971f;
+  --color-monokai-purple: #ae81ff;
 }
 
 @layer base {
