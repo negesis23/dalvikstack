@@ -24,7 +24,8 @@ async function run() {
     format: 'iife',
     target: 'es6',
     metafile: true,
-    define: { 'process.env.NODE_ENV': '"production"' }
+    define: { 'process.env.NODE_ENV': '"production"' },
+    plugins: [solidPlugin({ generate: 'dom', hydratable: true })]
   });
 
   const runtimeFile = Object.keys(runtimeResult.metafile.outputs)[0].split('/').pop();
@@ -35,7 +36,7 @@ async function run() {
     for (const f of files) {
       const name = f.replace(/\.(jsx|js)$/, '');
       const content = fs.readFileSync(path.join(ENTRIES_DIR, f), 'utf8');
-      const needsRuntime = content.includes('solid-js') || content.includes('<');
+      const needsRuntime = true; // Always include SolidJS runtime for entries
       
       const entryResult = await esbuild.build({
         entryPoints: [path.join(ENTRIES_DIR, f)],

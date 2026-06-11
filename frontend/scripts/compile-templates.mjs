@@ -1,11 +1,12 @@
-import { renderToString, createComponent } from "solid-js/web";
 import { createRequire } from "module";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const require = createRequire(import.meta.url);
+const { renderToString, createComponent } = require("solid-js/web");
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const VIEWS_DIR = path.resolve(__dirname, "../dist-ssr/views");
 const OUT_DIR = path.resolve(__dirname, "../../backend/src/main/resources/templates");

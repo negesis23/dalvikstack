@@ -1,4 +1,5 @@
 import { V } from "../components/VelocityBridge";
+import { HydrationScript, NoHydration } from "solid-js/web";
 
 export function BaseLayout(props) {
   return (
@@ -7,10 +8,13 @@ export function BaseLayout(props) {
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{V.var("title")}</title>
-        <link rel="stylesheet" href="/styles.css?v=7" />
+        <link rel="stylesheet" href="/styles.css?v=8" />
+        <NoHydration>
+          <HydrationScript />
+        </NoHydration>
       </head>
       <body class="bg-app-bg text-app-text font-sans antialiased m-0 p-0">
-
+        
         <header class="py-8 bg-app-bg sticky top-0 z-50">
           <div class="container mx-auto px-6 max-w-5xl flex justify-between items-center">
             <h1 class="text-xl font-black tracking-tight">

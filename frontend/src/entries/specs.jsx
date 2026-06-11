@@ -1,3 +1,5 @@
-// No JS needed for the specs view anymore, but we keep the entry 
-// to satisfy the bundler if we ever want to add interactivity later.
-console.log("Specs view loaded. Pure SSR for now.");
+import { mountIslands } from "../utils/mount";
+
+// No active islands on the Specs view currently,
+// but the architecture is ready to hydrate any component if added.
+mountIslands({});

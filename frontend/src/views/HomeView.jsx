@@ -1,4 +1,6 @@
 import { BaseLayout } from "../layouts/BaseLayout";
+import { Island } from "../components/Island";
+import HydrationTest from "../components/HydrationTest";
 
 export default function HomeView() {
   return (
@@ -15,7 +17,7 @@ export default function HomeView() {
       <section class="py-24 bg-app-surface">
         <div class="container mx-auto px-6 max-w-4xl">
           <h3 class="text-3xl font-bold mb-16">Compilation Pipeline</h3>
-          
+
           <div class="space-y-16">
             <div class="flex flex-col md:flex-row gap-8 md:gap-12">
               <div class="flex-none w-16 h-16 bg-solid text-white flex items-center justify-center font-black text-2xl rounded-xl">1</div>
@@ -51,12 +53,19 @@ export default function HomeView() {
       </section>
 
       <section class="py-32">
-        <div class="container mx-auto px-6 max-w-4xl text-center">
-          <h3 class="text-3xl font-bold mb-8">Interactive Hydration</h3>
+        <div class="container mx-auto px-6 max-w-4xl text-center flex flex-col items-center">
+          <h3 class="text-3xl font-bold mb-8">Smart Automated Islands</h3>
           <p class="text-app-muted text-lg mb-16 max-w-2xl mx-auto">
-            While the initial view is rendered purely on the server, specific "islands" are hydrated on the client using SolidJS to provide reactivity.
+            Instead of manually rendering components, our pipeline uses an automated `<span class="text-solid">Island</span> />` component. Simply specify the component name and props in the JSX view, and the generic bootstrapper will dynamically locate and hydrate it on the client.
           </p>
-          <div id="interactive-root"></div>
+
+          <Island
+            name="HydrationTest"
+            initialCount={0}
+            step={2}
+          >
+            <HydrationTest initialCount={0} step={2} />
+          </Island>
         </div>
       </section>
     </BaseLayout>
