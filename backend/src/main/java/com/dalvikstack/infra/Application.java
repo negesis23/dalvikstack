@@ -6,6 +6,7 @@ import com.dalvikstack.infra.router.Router;
 import com.dalvikstack.infra.handler.HomeHandler;
 import com.dalvikstack.infra.handler.SpecsHandler;
 import com.dalvikstack.infra.handler.AssetHandler;
+import com.dalvikstack.infra.handler.NoJsHandler;
 
 public final class Application extends NanoHTTPD {
     private final Router router;
@@ -15,6 +16,7 @@ public final class Application extends NanoHTTPD {
         this.router = new Router();
         this.router.addRoute("/", new HomeHandler());
         this.router.addRoute("/specs", new SpecsHandler());
+        this.router.addRoute("/no-js", new NoJsHandler());
         this.router.setAssetHandler(new AssetHandler());
     }
 
@@ -28,7 +30,6 @@ public final class Application extends NanoHTTPD {
         try {
             Application app = new Application();
             app.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
-            System.out.println("[DalvikStack] Service up: http://localhost:" + Config.PORT);
             Thread.currentThread().join();
         } catch (Exception e) {
             System.exit(1);

@@ -1,21 +1,16 @@
 @import "tailwindcss";
 
 @theme {
-  --color-monokai-bg: #1e1e1e;
-  --color-monokai-panel: #272822;
-  --color-monokai-sub: #141411;
-  --color-monokai-text: #f8f8f2;
-  --color-monokai-pink: #f92672;
-  --color-monokai-green: #a6e22e;
-  --color-monokai-yellow: #e6db74;
-  --color-monokai-blue: #66d9ef;
-  --color-monokai-orange: #fd971f;
-  --color-monokai-purple: #ae81ff;
+  --color-base-bg: #FFFFFF;
+  --color-base-surface: #F8FAFC;
+  --color-base-text: #0F172A;
+  --color-base-dim: #64748B;
+  --color-base-accent: #2563EB;
+  --color-base-border: #E2E8F0;
 }
 
 @layer base {
   body {
-    background-color: var(--color-monokai-bg);
-    color: var(--color-monokai-text);
+    @apply bg-base-bg text-base-text font-sans;
   }
 }

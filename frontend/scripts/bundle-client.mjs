@@ -10,19 +10,26 @@ const OUT_DIR = path.resolve(__dirname, '../../backend/src/main/resources/public
 const MANIFEST = path.resolve(__dirname, '../../backend/src/main/resources/assets.properties');
 
 async function run() {
-  if (!fs.existsSync(OUT_DIR)) fs.mkdirSync(OUT_DIR, { recursive: true });
+  if (fs.existsSync(OUT_DIR)) {
+    fs.rmSync(OUT_DIR, { recursive: true, force: true });
+  }
+  fs.mkdirSync(OUT_DIR, { recursive: true });
 
-  await esbuild.build({
+  const runtimeResult = await esbuild.build({
     entryPoints: [path.resolve(__dirname, '../src/runtime.js')],
     bundle: true,
-    outfile: path.join(OUT_DIR, 'runtime.js'),
+    outdir: OUT_DIR,
+    entryNames: '[name].[hash]',
     minify: true,
     format: 'iife',
     target: 'es6',
+    metafile: true,
     define: { 'process.env.NODE_ENV': '"production"' }
   });
 
+  const runtimeFile = Object.keys(runtimeResult.metafile.outputs)[0].split('/').pop();
   const manifest = [];
+  
   if (fs.existsSync(ENTRIES_DIR)) {
     const files = fs.readdirSync(ENTRIES_DIR).filter(f => f.endsWith('.jsx') || f.endsWith('.js'));
     for (const f of files) {
@@ -30,13 +37,15 @@ async function run() {
       const content = fs.readFileSync(path.join(ENTRIES_DIR, f), 'utf8');
       const needsRuntime = content.includes('solid-js') || content.includes('<');
       
-      await esbuild.build({
+      const entryResult = await esbuild.build({
         entryPoints: [path.join(ENTRIES_DIR, f)],
         bundle: true,
-        outfile: path.join(OUT_DIR, `${name}.js`),
+        outdir: OUT_DIR,
+        entryNames: '[name].[hash]',
         minify: true,
         format: 'iife',
         target: 'es6',
+        metafile: true,
         external: needsRuntime ? ['window.Solid', 'window.SolidWeb'] : [],
         define: { 'process.env.NODE_ENV': '"production"' },
         plugins: needsRuntime ? [
@@ -55,9 +64,9 @@ async function run() {
         ] : [],
       });
       
-      const scripts = needsRuntime ? [`/js/runtime.js`, `/js/${name}.js`] : [`/js/${name}.js`];
+      const entryFile = Object.keys(entryResult.metafile.outputs)[0].split('/').pop();
+      const scripts = needsRuntime ? [`/js/${runtimeFile}`, `/js/${entryFile}`] : [`/js/${entryFile}`];
       manifest.push(`${name}.scripts=${scripts.join(',')}`);
-      console.log(`[DalvikStack] Asset: ${name} (Runtime: ${needsRuntime})`);
     }
   }
   fs.writeFileSync(MANIFEST, manifest.join('\n'));

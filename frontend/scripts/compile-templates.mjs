@@ -29,7 +29,6 @@ async function run() {
     
     fs.mkdirSync(OUT_DIR, { recursive: true });
     fs.writeFileSync(path.join(OUT_DIR, dest), out);
-    console.log(`[DalvikStack] Template compiled: ${dest}`);
   }
 }
 

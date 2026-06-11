@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "build:ssr": "babel src --out-dir dist-ssr --extensions \".jsx\" --quiet",
-    "build:client": "node scripts/bundle-client.js",
+    "build:client": "node scripts/bundle-client.mjs",
     "build:css": "tailwindcss -i src/styles/main.css -o ../backend/src/main/resources/public/styles.css --minify",
-    "compile:templates": "node scripts/compile-templates.js"
+    "compile:templates": "node scripts/compile-templates.mjs"
   },
   "dependencies": {
     "@tailwindcss/cli": "^4.3.0",

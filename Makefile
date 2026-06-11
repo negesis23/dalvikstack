@@ -2,6 +2,13 @@
 # DalvikStack Build System
 # ==========================================
 
+# Colors
+P := \033[38;5;197m
+G := \033[38;5;148m
+B := \033[38;5;81m
+D := \033[2m
+R := \033[0m
+
 # Configuration
 PORT     := 8080
 B_DIR    := backend
@@ -55,56 +62,56 @@ $(L_DIR)/%.jar:
 	@mkdir -p $(@D)
 	@URL=$(filter %$*,$(URLS)); \
 	if [ ! -f $@ ]; then \
-		printf "[DalvikStack] Fetching %s\n" "$*"; \
+		printf "$(P)[DalvikStack]$(R) RETRIEVING $(B)%s$(R)\n" "$*"; \
 		curl -sL $$URL -o $@; \
 	fi
 
 $(D_DIR)/%.dex.jar: $(L_DIR)/%.jar
 	@mkdir -p $(@D)
-	@printf "[DalvikStack] Dexing %s\n" "$*"
+	@printf "$(P)[DalvikStack]$(R) OPTIMIZING $(G)%s$(R)\n" "$*"
 	@$(DX) --dex --min-sdk-version=23 --output=$@ $<
 
 frontend: $(T_DIR)/home.vm
 
 $(T_DIR)/home.vm: $(TPL_SRCS)
-	@printf "[DalvikStack] Compiling frontend templates\n"
+	@printf "$(P)[DalvikStack]$(R) PRE-RENDERING VIEWS\n"
 	@mkdir -p $(F_DIR)/dist-ssr $(T_DIR)
 	@cd $(F_DIR) && $(NPM) run build:ssr && $(NPM) run compile:templates
 
 css: $(P_DIR)/styles.css
 
 $(P_DIR)/styles.css: $(F_DIR)/src/styles/main.css
-	@printf "[DalvikStack] Generating styles\n"
+	@printf "$(P)[DalvikStack]$(R) PROCESSING STYLES\n"
 	@mkdir -p $(@D)
 	@cd $(F_DIR) && $(ENV) $(NPM) run build:css
 
 assets: $(P_DIR)/js/home.js
 
 $(P_DIR)/js/home.js: $(JS_SRCS)
-	@printf "[DalvikStack] Bundling page assets\n"
+	@printf "$(P)[DalvikStack]$(R) BUNDLING ASSETS\n"
 	@mkdir -p $(P_DIR)/js
 	@cd $(F_DIR) && $(NPM) run build:client
 
 backend: $(APP_DEX)
 
 $(APP_DEX): $(JAVA_SRCS)
-	@printf "[DalvikStack] Compiling backend\n"
+	@printf "$(P)[DalvikStack]$(R) COMPILING BACKEND\n"
 	@mkdir -p $(O_DIR) $(D_DIR)
 	@CP=$$(find $(L_DIR) -name "*.jar" | tr '\n' ':'); \
 	$(ECJ) -source 1.7 -target 1.7 -cp "$$CP" -d $(O_DIR) $^
 	@$(DX) --dex --min-sdk-version=23 --output=$@ $(O_DIR)
 
 run:
-	@printf "[DalvikStack] Executing service on :%s\n" "$(PORT)"
+	@printf "$(P)[DalvikStack]$(R) LISTENING AT $(G)http://localhost:$(PORT)$(R)\n"
 	@fuser -k $(PORT)/tcp 2>/dev/null || true
 	@CP_DEX=$$(ls $(D_DIR)/*.dex.jar | tr '\n' ':'); \
-	$(DALVIKVM) -Xmx256m -cp $(shell pwd)/$(R_DIR):$$CP_DEX com.dalvikstack.infra.Application
+	$(DALVIKVM) -Xmx256m -cp $(shell pwd)/$(R_DIR):$$CP_DEX com.dalvikstack.infra.Application 2>/dev/null || true
 
 watch: build
-	@printf "[DalvikStack] Starting development watcher\n"
+	@printf "$(P)[DalvikStack]$(R) $(D)MONITORING CHANGES$(R)\n"
 	@node scripts/watch.js
 
 clean:
-	@printf "[DalvikStack] Cleaning artifacts\n"
+	@printf "$(P)[DalvikStack]$(R) PURGING BUILD CACHE\n"
 	@rm -rf $(O_DIR) $(D_DIR)/app.dex.jar $(P_DIR) $(F_DIR)/dist-ssr $(T_DIR)/*.vm
 	@rm -f $(R_DIR)/assets.properties
