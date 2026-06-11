@@ -1,5 +1,7 @@
-import { mountIslands } from "../utils/mount";
+import { hydrate } from "solid-js/web";
+import SpecsView from "../views/SpecsView";
 
-// No active islands on the Specs view currently,
-// but the architecture is ready to hydrate any component if added.
-mountIslands({});
+const root = document.getElementById("root");
+if (root) {
+  hydrate(() => <SpecsView />, root);
+}

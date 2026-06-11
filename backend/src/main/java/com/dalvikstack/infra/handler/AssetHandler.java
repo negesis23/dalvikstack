@@ -22,14 +22,18 @@ public final class AssetHandler implements Handler {
         try {
             InputStream is = getClass().getResourceAsStream("/" + path);
             long length = 0;
+            long lastModified = 0;
             if (is == null) {
                 File file = new File("backend/src/main/resources/" + path);
                 if (file.exists() && file.isFile()) {
                     length = file.length();
+                    lastModified = file.lastModified();
                     is = new FileInputStream(file);
                 }
             } else {
                 length = is.available();
+                // For resources from classpath, available() is the best we have, 
+                // but we can add a build-time salt if needed.
             }
             
             if (is == null) return null;
@@ -40,8 +44,8 @@ public final class AssetHandler implements Handler {
             String mime = Config.MIME.get(ext);
             if (mime == null) mime = "application/octet-stream";
 
-            // Generate ETag (simple version based on length/path)
-            String etag = Integer.toHexString((path + length).hashCode());
+            // Generate ETag (include lastModified for better cache busting)
+            String etag = Integer.toHexString((path + length + lastModified).hashCode());
             
             // Check If-None-Match
             Map<String, String> headers = session.getHeaders();

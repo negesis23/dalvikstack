@@ -1,17 +1,35 @@
 @import "tailwindcss";
 
 @theme {
-  --color-app-bg: #0B0F19;      /* Deep dark slate */
-  --color-app-surface: #131A2A; /* Lighter surface for contrast without borders */
-  --color-app-text: #F1F5F9;    /* Clean white-slate text */
-  --color-app-muted: #94A3B8;   /* Dimmed text */
-  --color-java: #ED8B00;        /* Official Java Orange */
-  --color-solid: #446B9E;       /* Official SolidJS Blue */
-  --color-solid-dark: #2C4F7C;  /* Darker variant for backgrounds */
+  --color-brand-bg: #000000;      /* Absolute Black */
+  --color-brand-surface: #0A0A0A; /* Deep Surface */
+  --color-brand-text: #F2F2F2;    /* Near White */
+  --color-brand-muted: #808080;   /* Neutral Gray */
+  --color-brand-orange: #ED8B00;  /* Java Orange */
+  --color-brand-blue: #446B9E;    /* Solid Blue */
 }
 
 @layer base {
   body {
-    @apply bg-app-bg text-app-text font-sans selection:bg-solid selection:text-white;
+    @apply bg-brand-bg text-brand-text font-sans antialiased m-0 p-0 overflow-x-hidden;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply w-full max-w-6xl mx-auto px-5 sm:px-8 lg:px-12;
+  }
+  
+  /* Strict Flat Design - No Borders, No Shadows, No Blurs */
+  .block-orange {
+    @apply bg-brand-orange text-black rounded-[3rem] p-8 sm:p-12 lg:p-16;
+  }
+  
+  .block-blue {
+    @apply bg-brand-blue text-white rounded-[3rem] p-8 sm:p-12 lg:p-16;
+  }
+  
+  .block-surface {
+    @apply bg-brand-surface text-brand-text rounded-[3rem] p-8 sm:p-12 lg:p-16;
   }
 }

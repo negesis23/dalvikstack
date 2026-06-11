@@ -2,11 +2,13 @@ import esbuild from 'esbuild';
 import { solidPlugin } from 'esbuild-plugin-solid';
 import path from 'path';
 import fs from 'fs';
+import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const ENTRIES_DIR = path.resolve(__dirname, '../src/entries');
 const OUT_DIR = path.resolve(__dirname, '../../backend/src/main/resources/public/js');
+const CSS_FILE = path.resolve(__dirname, '../../backend/src/main/resources/public/styles.css');
 const MANIFEST = path.resolve(__dirname, '../../backend/src/main/resources/assets.properties');
 
 async function run() {
@@ -31,6 +33,13 @@ async function run() {
   const runtimeFile = Object.keys(runtimeResult.metafile.outputs)[0].split('/').pop();
   const manifest = [];
   
+  // Handle CSS Hash
+  if (fs.existsSync(CSS_FILE)) {
+    const cssContent = fs.readFileSync(CSS_FILE);
+    const hash = crypto.createHash('sha256').update(cssContent).digest('hex').substring(0, 8);
+    manifest.push(`css.hash=${hash}`);
+  }
+
   if (fs.existsSync(ENTRIES_DIR)) {
     const files = fs.readdirSync(ENTRIES_DIR).filter(f => f.endsWith('.jsx') || f.endsWith('.js'));
     for (const f of files) {

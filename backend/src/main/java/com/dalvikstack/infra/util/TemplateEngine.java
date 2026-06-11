@@ -15,11 +15,12 @@ public final class TemplateEngine {
 
     static {
         Properties p = new Properties();
-        String path = new File("backend/src/main/resources").getAbsolutePath();
+        String resourcesPath = new File("backend/src/main/resources").getAbsolutePath();
+        String templatesPath = new File("backend/src/main/resources/templates").getAbsolutePath();
         
         p.setProperty(RuntimeConstants.RESOURCE_LOADER, "file,class");
         p.setProperty("file.resource.loader.class", FileResourceLoader.class.getName());
-        p.setProperty("file.resource.loader.path", path);
+        p.setProperty("file.resource.loader.path", resourcesPath + "," + templatesPath);
         p.setProperty("file.resource.loader.cache", "false");
         p.setProperty("file.resource.loader.modificationCheckInterval", "0");
         

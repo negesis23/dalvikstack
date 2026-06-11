@@ -17,8 +17,12 @@ public abstract class BaseHandler implements Handler {
             if (is != null) {
                 assets.load(is);
                 is.close();
+                System.out.println("[DalvikStack] Loaded assets.properties");
+            } else {
+                System.out.println("[DalvikStack] FAILED to find assets.properties");
             }
         } catch (Exception e) {
+            System.out.println("[DalvikStack] ERROR loading assets: " + e.getMessage());
         }
     }
 
@@ -35,6 +39,9 @@ public abstract class BaseHandler implements Handler {
         if (scriptsCsv != null) {
             ctx.put("scripts", Arrays.asList(scriptsCsv.split(",")));
         }
+        
+        String hash = assets.getProperty("css.hash");
+        ctx.put("css_v", hash != null ? hash : "default");
 
         onLoad(ctx, session);
         

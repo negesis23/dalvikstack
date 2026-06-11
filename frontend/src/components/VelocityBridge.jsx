@@ -1,7 +1,9 @@
+const fmt = (s) => s.startsWith("$") ? s : `$${s}`;
+
 export const V = {
-  var: (name) => `$${name}`,
-  if: (cond) => `#if(${cond})`,
+  var: (name) => fmt(name),
+  if: (cond) => `#if(${fmt(cond)})`,
   else: () => "#else",
-  foreach: (item, list) => `#foreach($${item} in $${list})`,
+  foreach: (item, list) => `#foreach(${fmt(item)} in ${fmt(list)})`,
   end: () => "#end"
 };
