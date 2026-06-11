@@ -1,16 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  --color-base-bg: #FFFFFF;
-  --color-base-surface: #F8FAFC;
-  --color-base-text: #0F172A;
-  --color-base-dim: #64748B;
-  --color-base-accent: #2563EB;
-  --color-base-border: #E2E8F0;
+  --color-app-bg: #0B0F19;      /* Deep dark slate */
+  --color-app-surface: #131A2A; /* Lighter surface for contrast without borders */
+  --color-app-text: #F1F5F9;    /* Clean white-slate text */
+  --color-app-muted: #94A3B8;   /* Dimmed text */
+  --color-java: #ED8B00;        /* Official Java Orange */
+  --color-solid: #446B9E;       /* Official SolidJS Blue */
+  --color-solid-dark: #2C4F7C;  /* Darker variant for backgrounds */
 }
 
 @layer base {
   body {
-    @apply bg-base-bg text-base-text font-sans;
+    @apply bg-app-bg text-app-text font-sans selection:bg-solid selection:text-white;
   }
 }
